@@ -11,6 +11,9 @@ import MascotaPage from "./components/MascotaPage";
 import LoginPage from "./components/LoginPage";
 import SignUpPage from "./components/SignUpPage";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import AgregarMascotaPage from "./components/AgregarMascotaPage";
+import RecordatoriosPage from "./components/RecordatoriosPage";
+import AgregarRecordatorioPage from "./components/AgregarRecordatorioPage";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -28,7 +31,10 @@ export default function App() {
       <StatusBar style="dark" backgroundColor="#fff" />
       {/* <MascotaPage /> */}
       {/* <LoginPage /> */}
-      <HomePage />
+      {/* <HomePage /> */}
+      {/* <AgregarMascotaPage /> */}
+      {/* <RecordatoriosPage /> */}
+      <AgregarRecordatorioPage />
     </SafeAreaProvider>
   );
 }
