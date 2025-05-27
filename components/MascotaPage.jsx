@@ -1,6 +1,8 @@
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import { theme } from "../styles/theme";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { EditIcon, AddIcon } from "./Icons";
+import { Link } from "expo-router";
 
 function MascotaPage() {
   return (
@@ -13,12 +15,7 @@ function MascotaPage() {
           }}
         />
         <Pressable style={styles.editButton}>
-          <Image
-            style={{ width: 50, height: 50 }}
-            source={{
-              uri: "https://cdn.iconscout.com/icon/free/png-256/free-edit-icon-download-in-svg-png-gif-file-formats--pen-write-pencil-ball-study-user-interface-vol-2-pack-icons-2202989.png?f=webp&w=256",
-            }}
-          />
+          <EditIcon size={40} color="#000" />
         </Pressable>
       </View>
       <Text style={styles.petName}>DIEGO</Text>
@@ -39,14 +36,11 @@ function MascotaPage() {
           Historial
         </Text>
       </Pressable>
-      <Pressable style={styles.addButton}>
-        <Image
-          style={{ width: 75, height: 75 }}
-          source={{
-            uri: "https://cdn-icons-png.flaticon.com/512/2661/2661440.png",
-          }}
-        />
-      </Pressable>
+      <Link href={"/agregar-mascota"} asChild>
+        <Pressable style={styles.addButton}>
+          <AddIcon size={70} color="#000" />
+        </Pressable>
+      </Link>
     </SafeAreaView>
   );
 }
@@ -108,7 +102,7 @@ const styles = StyleSheet.create({
     height: 75,
     position: "absolute",
     right: 20,
-    bottom: 100,
+    bottom: 45,
   },
 });
 

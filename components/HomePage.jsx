@@ -27,9 +27,8 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat_700Bold",
     fontSize: 30,
     textAlign: "center",
-    marginTop: 20,
     color: "#333",
-    marginBottom: 30,
+    marginBottom: 10,
   },
   image: {
     width: 200,

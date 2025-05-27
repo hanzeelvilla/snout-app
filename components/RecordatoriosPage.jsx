@@ -1,13 +1,8 @@
-import {
-  View,
-  Text,
-  Image,
-  Pressable,
-  StyleSheet,
-  ScrollView,
-} from "react-native";
+import { View, Text, Pressable, StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { theme } from "../styles/theme";
+import { AddIcon, FilterIcon } from "./Icons";
+import { Link } from "expo-router";
 
 function RecordatoriosPage() {
   return (
@@ -16,19 +11,14 @@ function RecordatoriosPage() {
         style={{
           flexDirection: "row",
           alignItems: "center",
-          marginTop: 80,
+          marginTop: 20,
           justifyContent: "space-between",
           width: "80%",
         }}
       >
         <Text style={styles.title}>RECORDATORIOS</Text>
         <Pressable>
-          <Image
-            style={{ width: 40, height: 40 }}
-            source={{
-              uri: "https://cdn-icons-png.flaticon.com/512/107/107799.png",
-            }}
-          />
+          <FilterIcon color={"#000"} size={50} />
         </Pressable>
       </View>
       <View style={{ width: "80%", marginTop: 20 }}>
@@ -63,14 +53,11 @@ function RecordatoriosPage() {
           </Text>
         </Pressable>
       </View>
-      <Pressable style={styles.addButton}>
-        <Image
-          style={{ width: 75, height: 75 }}
-          source={{
-            uri: "https://cdn-icons-png.flaticon.com/512/2661/2661440.png",
-          }}
-        />
-      </Pressable>
+      <Link href={"/agregar-recordatorio"} asChild>
+        <Pressable style={styles.addButton}>
+          <AddIcon color={"#000"} size={70} />
+        </Pressable>
+      </Link>
     </SafeAreaView>
   );
 }
@@ -92,7 +79,7 @@ const styles = StyleSheet.create({
     height: 75,
     position: "absolute",
     right: 20,
-    bottom: 100,
+    bottom: 45,
   },
   card: {
     width: "100%",
