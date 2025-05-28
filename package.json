@@ -1,7 +1,7 @@
 {
   "name": "snout",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
@@ -11,13 +11,21 @@
   },
   "dependencies": {
     "@expo-google-fonts/montserrat": "^0.3.0",
+    "@expo/vector-icons": "^14.1.0",
+    "@react-native-community/datetimepicker": "8.3.0",
+    "@react-native-picker/picker": "2.11.0",
     "expo": "~53.0.9",
     "expo-constants": "~17.1.6",
     "expo-font": "~13.3.1",
+    "expo-linking": "~7.1.5",
+    "expo-router": "~5.0.7",
     "expo-splash-screen": "~0.30.8",
     "expo-status-bar": "~2.2.3",
     "react": "19.0.0",
-    "react-native": "0.79.2"
+    "react-native": "0.79.2",
+    "react-native-safe-area-context": "5.4.0",
+    "react-native-screens": "~4.10.0",
+    "react-native-svg": "^15.12.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
