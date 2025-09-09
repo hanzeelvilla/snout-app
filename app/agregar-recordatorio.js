@@ -6,7 +6,7 @@ export default function AgregarRecordatorio() {
   return (
     <>
       <Stack.Screen
-        name="agregar-mascota"
+        name="agregar-recordatorio"
         options={{ headerRight: () => <MenuIcon /> }}
       />
       <AgregarRecordatorioPage />

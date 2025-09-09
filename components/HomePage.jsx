@@ -1,7 +1,11 @@
 import { Text, StyleSheet, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useAuth } from "../contexts/AuthContext";
+import { useRouter } from "expo-router";
 
 function HomePage() {
+  const { userInfo } = useAuth();
+
   return (
     <SafeAreaView style={styles.screen}>
       <Text style={styles.titulo}>¡BIENVENIDO!</Text>
@@ -11,7 +15,7 @@ function HomePage() {
           uri: "https://images.genius.com/74495d63df3c91ea6d8fc43c43b71395.598x598x1.png",
         }}
       />
-      <Text style={styles.usuario}>HANZEEL</Text>
+      <Text style={styles.usuario}>{userInfo.username.toUpperCase()}</Text>
     </SafeAreaView>
   );
 }
