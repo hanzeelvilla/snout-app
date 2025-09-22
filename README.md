@@ -3,7 +3,7 @@
 Snout APP is a mobile application for controlling and monitoring your furry friend 🐶. It allows you to view your pet's location, activity, and health in real time, thanks to its integration with the Snout smart collar. From the app, you can receive alerts if your pet leaves a safe zone, manage reminders, and track their activity history.
 
 <p align="center"\>
-    \<img src="./assets/icon.png" alt="Snout logo" width=400/\>
+    <img src="./assets/adaptive-icon.png" alt="Snout logo" width=400/\>
 </p\>
 
 -----
