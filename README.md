@@ -11,6 +11,7 @@ Snout APP is a mobile application for controlling and monitoring your furry frie
 ## System Architecture
 
 The app communicates with the backend and the Snout collar to display relevant information about your pet.
+![Arquitectura del sistema](/assets/system-architecture.jpeg)
 
 -----
 
