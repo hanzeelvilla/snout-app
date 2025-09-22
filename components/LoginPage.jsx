@@ -1,17 +1,11 @@
-import {
-  View,
-  Image,
-  Text,
-  Pressable,
-  TextInput,
-  StyleSheet,
-} from "react-native";
+import { View, Image, Text, Pressable, StyleSheet } from "react-native";
 import { theme } from "../styles/theme";
 import { SafeAreaView } from "react-native-safe-area-context";
 import authService from "../services/auth";
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useRouter } from "expo-router";
+import Input from "./Input";
 import ErrorModal from "./ErrorModal";
 
 function LoginPage() {
@@ -36,6 +30,11 @@ function LoginPage() {
     }
   };
 
+  const validateInput = (value) => {
+    if (!value) return "Este campo es obligatorio";
+    return null;
+  };
+
   return (
     <SafeAreaView style={styles.screen}>
       <ErrorModal
@@ -52,21 +51,19 @@ function LoginPage() {
         <Text style={styles.title}>Snout</Text>
       </View>
       <View style={{ width: "80%" }}>
-        <Text style={styles.label}>Nombre de usuario</Text>
-        <TextInput
-          style={styles.input}
+        <Input
           value={username}
-          onChangeText={(text) => setUsername(text)}
-        ></TextInput>
-        <Text style={styles.label}>Contraseña</Text>
-        <TextInput
-          style={styles.input}
+          label="Nombre de usuario"
+          onChange={(text) => setUsername(text)}
+          validatorFn={validateInput}
+        />
+        <Input
           value={password}
-          secureTextEntry={true}
-          onChangeText={(text) => {
-            setPassword(text);
-          }}
-        ></TextInput>
+          label="Contraseña"
+          onChange={(text) => setPassword(text)}
+          validatorFn={validateInput}
+          secureText={true}
+        />
       </View>
       <Link href="/sign-up" asChild>
         <Pressable style={styles.link}>

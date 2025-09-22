@@ -1,4 +1,4 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import Svg, { Path, Defs, Pattern, Use, Image } from "react-native-svg";
 
 export const HospitalIcon = (props) => {
@@ -89,4 +89,8 @@ export const HomeIcon = (props) => (
     color="white"
     {...props}
   />
+);
+
+export const ErrorIcon = (props) => (
+  <MaterialIcons name="error" size={24} color="red" />
 );

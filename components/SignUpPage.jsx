@@ -1,6 +1,5 @@
 import {
   Text,
-  TextInput,
   Pressable,
   View,
   StyleSheet,
@@ -16,6 +15,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import authService from "../services/auth";
+import Input from "./Input";
 import ErrorModal from "./ErrorModal";
 
 function SignUpPage() {
@@ -42,6 +42,48 @@ function SignUpPage() {
     }
   };
 
+  const validateName = (value) => {
+    const regex = /^[a-zA-Z]+$/;
+    if (!value) return "Este campo es obligatorio";
+    if (value.length < 2)
+      return "Este campo debe de contener al menos 2 caracteres";
+    if (!regex.test(value))
+      return "Este campo solo puede contener mayúsculas y minúsculas";
+    return null;
+  };
+
+  const validateUsername = (value) => {
+    const regex = /^[a-zA-Z0-9@#/\-._]+$/;
+    if (!value) return "Este campo es obligatorio";
+    if (value.length < 5)
+      return "Este campo debe de contener al menos 5 caracteres";
+    if (!regex.test(value))
+      return "Este campo solo puede contener letras (a-z, A-Z), números (0-9) y los caracteres especiales: @ # / - _ . ";
+    return null;
+  };
+
+  const validateEmail = (value) => {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!value) return "Este campo es obligatorio";
+    if (!regex.test(value)) return "Correo no valido";
+    return null;
+  };
+
+  const validatePassword = (value) => {
+    const regex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[@#/\-._])[a-zA-Z0-9@#/\-._]+$/;
+    if (!value) return "Esta campo es obligatorio";
+    if (value.length < 8)
+      return "Este campo debe contener al menos 8 caracteres";
+    if (!regex.test(value))
+      return "Este campo debe contener al menos una letra mayúscula, un número y uno de los siguientes caracteres especiales: @ # / - _ . ";
+    return null;
+  };
+
+  const validateConfirmPassword = (value) => {
+    if (!value) return "Este campo es obligatorio";
+    if (value !== formInfo.password) return "Las contraseñas no coinciden";
+  };
+
   return (
     <SafeAreaView style={styles.screen}>
       <ErrorModal
@@ -51,70 +93,67 @@ function SignUpPage() {
       />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <ScrollView
             contentContainerStyle={styles.inner}
             keyboardShouldPersistTaps="handled"
           >
-            <View style={{ width: "80%", marginTop: 50 }}>
+            <View style={{ width: "80%", paddingTop: 80, height: "100%" }}>
               <Text style={styles.title}>Sign Up</Text>
 
-              <Text style={styles.label}>Nombre</Text>
-              <TextInput
-                style={styles.input}
+              <Input
                 value={formInfo.name}
-                onChangeText={(text) =>
-                  setFormInfo({ ...formInfo, name: text })
-                }
+                label="Nombre"
+                onChange={(text) => setFormInfo({ ...formInfo, name: text })}
+                validatorFn={validateName}
               />
 
-              <Text style={styles.label}>Apellidos</Text>
-              <TextInput
-                style={styles.input}
+              <Input
                 value={formInfo.lastName}
-                onChangeText={(text) =>
+                label="Apellidos"
+                onChange={(text) =>
                   setFormInfo({ ...formInfo, lastName: text })
                 }
+                validatorFn={validateName}
               />
 
-              <Text style={styles.label}>Nombre de usuario</Text>
-              <TextInput
-                style={styles.input}
+              <Input
                 value={formInfo.username}
-                onChangeText={(text) =>
+                label="Nombre de usuario"
+                onChange={(text) =>
                   setFormInfo({ ...formInfo, username: text })
                 }
+                validatorFn={validateUsername}
               />
 
-              <Text style={styles.label}>Correo</Text>
-              <TextInput
-                style={styles.input}
-                keyboardType="email-address"
+              <Input
                 value={formInfo.email}
-                onChangeText={(text) =>
-                  setFormInfo({ ...formInfo, email: text })
-                }
+                label="Correo"
+                keyboardType="email-address"
+                onChange={(text) => setFormInfo({ ...formInfo, email: text })}
+                validatorFn={validateEmail}
               />
 
-              <Text style={styles.label}>Contraseña</Text>
-              <TextInput
-                style={styles.input}
-                secureTextEntry
+              <Input
                 value={formInfo.password}
-                onChangeText={(text) =>
+                label="Contraseña"
+                secureText={true}
+                onChange={(text) =>
                   setFormInfo({ ...formInfo, password: text })
                 }
+                validatorFn={validatePassword}
               />
 
-              <Text style={styles.label}>Confirmar contraseña</Text>
-              <TextInput
-                style={styles.input}
-                secureTextEntry
+              <Input
                 value={formInfo.confirmPassword}
-                onChangeText={(text) =>
+                label="Confirmar contraseña"
+                secureText={true}
+                onChange={(text) =>
                   setFormInfo({ ...formInfo, confirmPassword: text })
                 }
+                validatorFn={validateConfirmPassword}
               />
 
               <Pressable style={styles.button} onPress={handleSignUp}>
@@ -134,10 +173,11 @@ const styles = StyleSheet.create({
     backgroundColor: theme.navigationBarColor,
   },
   inner: {
-    flexGrow: 1, // importante
+    flexGrow: 1,
     alignItems: "center",
     paddingBottom: 40,
     backgroundColor: theme.navigationBarColor,
+    justifyContent: "center",
   },
   title: {
     fontSize: 40,

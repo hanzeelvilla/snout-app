@@ -1,7 +1,6 @@
 import { Text, StyleSheet, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "../contexts/AuthContext";
-import { useRouter } from "expo-router";
 
 function HomePage() {
   const { userInfo } = useAuth();
