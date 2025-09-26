@@ -3,8 +3,19 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { theme } from "../styles/theme";
 import { AddIcon, FilterIcon } from "./Icons";
 import { Link } from "expo-router";
+import useReminders from "../hooks/useReminders";
 
 function RecordatoriosPage() {
+  const { isPending, isError, data, error } = useReminders();
+
+  if (isPending) {
+    return <Text>Loading...</Text>;
+  }
+
+  if (isError) {
+    return <Text>Ocurrió un error: {error?.message}</Text>;
+  }
+
   return (
     <SafeAreaView style={styles.screen}>
       <View
@@ -22,38 +33,39 @@ function RecordatoriosPage() {
         </Pressable>
       </View>
       <View style={{ width: "80%", marginTop: 20 }}>
-        <ScrollView
-          contentContainerStyle={{ alignItems: "flex-start" }}
-          style={{ flexGrow: 0, maxHeight: 480 }}
-        >
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>Sacar a pasear a Diego</Text>
-            <Text style={styles.cardDate}>Hoy - 8:00am</Text>
-          </View>
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>Sacar a pasear a Diego</Text>
-            <Text style={styles.cardDate}>Hoy - 8:00am</Text>
-          </View>
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>Sacar a pasear a Diego</Text>
-            <Text style={styles.cardDate}>Hoy - 8:00am</Text>
-          </View>
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>Sacar a pasear a Diego</Text>
-            <Text style={styles.cardDate}>Hoy - 8:00am</Text>
-          </View>
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>Sacar a pasear a Diego</Text>
-            <Text style={styles.cardDate}>Hoy - 8:00am</Text>
-          </View>
-        </ScrollView>
+        {data.length > 0 ? (
+          <ScrollView
+            contentContainerStyle={{ alignItems: "flex-start" }}
+            style={{ flexGrow: 0, maxHeight: 480 }}
+          >
+            {data.map((reminder) => (
+              <View style={styles.card} key={reminder.id}>
+                <Text style={styles.cardTitle}>{reminder.title}</Text>
+                <Text style={styles.cardDescription}>
+                  {reminder.description}
+                </Text>
+                <Text style={styles.cardDate}>
+                  {new Date(reminder.dueDate).toLocaleTimeString([], {
+                    year: "numeric",
+                    month: "numeric",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </Text>
+              </View>
+            ))}
+          </ScrollView>
+        ) : (
+          <Text>No hay recordatorios</Text>
+        )}
         <Pressable style={styles.button}>
           <Text style={{ fontSize: 16, textAlign: "center" }}>
             Recordatorios recientes
           </Text>
         </Pressable>
       </View>
-      <Link href={"/agregar-recordatorio"} asChild>
+      <Link href={"/(reminders)/agregar-reminder"} asChild>
         <Pressable style={styles.addButton}>
           <AddIcon color={"#000"} size={70} />
         </Pressable>
@@ -88,12 +100,16 @@ const styles = StyleSheet.create({
     borderBottomColor: "transparent",
     borderLeftColor: "transparent",
     borderRightColor: "transparent",
+    paddingVertical: 10,
   },
   cardTitle: {
     fontSize: 20,
     fontFamily: "Montserrat_700Bold",
     color: "#000",
-    marginBottom: 5,
+  },
+  cardDescription: {
+    fontSize: 16,
+    fontFamily: "Montserrat_400Regular",
   },
   cardDate: {
     fontSize: 16,

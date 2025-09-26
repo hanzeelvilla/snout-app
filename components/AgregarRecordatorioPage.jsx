@@ -1,20 +1,39 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  Pressable,
-  StyleSheet,
-  Platform,
-} from "react-native";
+import { View, Text, Pressable, StyleSheet, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { theme } from "../styles/theme";
+import Input from "../components/Input";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import reminderService from "../services/reminders";
+import { useAuth } from "../contexts/AuthContext";
+import { useRouter } from "expo-router";
 
 function AgregarRecordatorioPage() {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [date, setDate] = useState(new Date());
   const [showDate, setShowDate] = useState(false);
   const [showTime, setShowTime] = useState(false);
+
+  const { userToken } = useAuth();
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationKey: ["createPet", userToken],
+    mutationFn: (newReminder) =>
+      reminderService.createReminder(newReminder, userToken),
+    onSuccess: (newReminder) => {
+      const reminders = queryClient.getQueryData(["reminders", userToken]);
+      queryClient.setQueryData(
+        ["reminders", userToken],
+        reminders.concat(newReminder),
+      );
+      router.back();
+    },
+    onError: (error) => console.log(error),
+  });
 
   const onChangeDate = (event, selectedDate) => {
     setShowDate(Platform.OS === "ios");
@@ -26,25 +45,33 @@ function AgregarRecordatorioPage() {
     if (selectedTime) setDate(selectedTime);
   };
 
+  const validateTitle = (value) => {
+    if (!value) return "Este campo es obligatorio";
+    return null;
+  };
+
   return (
     <SafeAreaView style={styles.screen}>
       <Text style={styles.title}>AGREGAR RECORDATORIO</Text>
       <View style={{ width: "80%" }}>
-        <Text style={styles.label}>Título</Text>
-        <TextInput style={styles.input} />
-        <Text style={styles.label}>Descripción</Text>
-        <TextInput
-          style={[styles.input, { height: 85 }]}
-          multiline
+        <Input
+          value={title}
+          label="Título"
+          onChange={(text) => setTitle(text)}
+          validatorFn={validateTitle}
+        />
+        <Input
+          value={description}
+          label="Descripción"
+          onChange={(text) => setDescription(text)}
+          multiline={true}
           numberOfLines={3}
         />
-        <Text style={styles.label}>Fecha</Text>
         <Pressable onPress={() => setShowDate(true)}>
-          <TextInput
-            style={styles.input}
+          <Input
             value={date.toLocaleDateString()}
+            label="Fecha"
             editable={false}
-            pointerEvents="none"
             placeholder="Selecciona una fecha"
           />
         </Pressable>
@@ -56,16 +83,14 @@ function AgregarRecordatorioPage() {
             onChange={onChangeDate}
           />
         )}
-        <Text style={styles.label}>Hora</Text>
         <Pressable onPress={() => setShowTime(true)}>
-          <TextInput
-            style={styles.input}
+          <Input
             value={date.toLocaleTimeString([], {
               hour: "2-digit",
               minute: "2-digit",
             })}
+            label="Hora"
             editable={false}
-            pointerEvents="none"
             placeholder="Selecciona una hora"
           />
         </Pressable>
@@ -78,7 +103,12 @@ function AgregarRecordatorioPage() {
           />
         )}
       </View>
-      <Pressable style={styles.button}>
+      <Pressable
+        style={styles.button}
+        onPress={() => {
+          mutation.mutate({ title, description, dueDate: date });
+        }}
+      >
         <Text style={{ fontSize: 18 }}>Agregar recordatorio</Text>
       </Pressable>
     </SafeAreaView>
