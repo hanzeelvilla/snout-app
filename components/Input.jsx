@@ -9,6 +9,12 @@ export default function Input({
   validatorFn,
   onChange,
   secureText = false,
+  placeholder,
+  editable = true,
+  numberOfLines = 1,
+  multiline = false,
+  labelColor = "#000",
+  onFocus,
 }) {
   const [error, setError] = useState(null);
 
@@ -17,26 +23,26 @@ export default function Input({
     setError(validationResult);
   };
 
+  const multilineStyle = multiline ? { height: 85 } : {};
+
   return (
     <>
-      <Text style={styles.label}>{label}</Text>
+      <Text style={[styles.label, { color: labelColor }]}>{label}</Text>
       <TextInput
-        style={styles.input}
+        style={[styles.input, multilineStyle]}
         keyboardType={keyboardType}
         secureTextEntry={secureText}
         onChangeText={onChange}
         onBlur={() => handleBlur(value)}
         value={value}
+        placeholder={placeholder || ""}
+        editable={editable}
+        numberOfLines={numberOfLines}
+        multiline={multiline}
+        onFocus={onFocus}
       />
       {error ? (
-        <View
-          style={{
-            display: "flex",
-            alignItems: "center",
-            flexDirection: "row",
-            marginBottom: 10,
-          }}
-        >
+        <View style={styles.errorContainer}>
           <ErrorIcon />
           <Text style={styles.error}>{error}</Text>
         </View>
@@ -49,7 +55,6 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontFamily: "Montserrat_400Regular",
-    color: "#fff",
   },
   error: {
     color: "red",
@@ -63,5 +68,10 @@ const styles = StyleSheet.create({
     height: 36,
     fontFamily: "Montserrat_400Regular",
     fontSize: 16,
+  },
+  errorContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
   },
 });
