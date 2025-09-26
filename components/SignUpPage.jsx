@@ -100,7 +100,7 @@ function SignUpPage() {
             contentContainerStyle={styles.inner}
             keyboardShouldPersistTaps="handled"
           >
-            <View style={{ width: "80%", paddingTop: 80, height: "100%" }}>
+            <View style={{ width: "80%", paddingTop: 50, height: "100%" }}>
               <Text style={styles.title}>Sign Up</Text>
 
               <Input
