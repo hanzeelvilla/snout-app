@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import * as SecureStore from "expo-secure-store";
+import { isTokenExpired } from "../utils/token";
 
 const AuthContext = createContext();
 
@@ -12,8 +13,12 @@ export function AuthProvider({ children }) {
     SecureStore.getItemAsync("userSession").then((session) => {
       if (session) {
         const parsed = JSON.parse(session);
-        setUserToken(parsed.token);
-        setUserInfo(parsed.user);
+        if (!isTokenExpired(parsed.token)) {
+          setUserToken(parsed.token);
+          setUserInfo(parsed.user);
+        } else {
+          signOut();
+        }
       }
       setLoading(false);
     });
