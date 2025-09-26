@@ -1,4 +1,4 @@
-import { Stack, useRouter } from "expo-router";
+import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import {
   Montserrat_400Regular,
@@ -11,7 +11,7 @@ import { MenuIcon } from "../components/Icons";
 import { Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { AuthProvider, useAuth } from "../contexts/AuthContext";
-import { useEffect } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function MainLayout() {
   const { userToken, loading } = useAuth();
@@ -24,33 +24,44 @@ function MainLayout() {
     <View style={{ flex: 1 }}>
       <Stack>
         {userToken ? (
-          // If the user has a token, show the tabs group
-          <Stack.Screen
-            name="(tabs)"
-            options={{
-              headerShown: true, // Habilitar el header solo para esta pantalla
-              headerLeft: () => {},
-              headerTitle: "",
-              headerStyle: {
-                backgroundColor: theme.navigationBarColor,
-              },
-              headerTintColor: "#fff",
-              headerRight: () => (
-                <View
-                  style={{
-                    paddingRight: 10,
-                    width: 50,
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <MenuIcon />
-                </View>
-              ),
-            }}
-          />
+          [
+            <Stack.Screen
+              key="tabs"
+              name="(tabs)"
+              options={{
+                headerShown: true,
+                headerLeft: () => {},
+                headerTitle: "",
+                headerStyle: {
+                  backgroundColor: theme.navigationBarColor,
+                },
+                headerTintColor: "#fff",
+                headerRight: () => (
+                  <View
+                    style={{
+                      paddingRight: 10,
+                      width: 50,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <MenuIcon />
+                  </View>
+                ),
+              }}
+            />,
+            <Stack.Screen
+              key="mascotas"
+              name="(mascotas)"
+              options={{ headerShown: false }}
+            />,
+            <Stack.Screen
+              key="reminders"
+              name="(reminders)"
+              options={{ headerShown: false }}
+            />,
+          ]
         ) : (
-          // If not, show the auth group
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         )}
       </Stack>
@@ -65,14 +76,18 @@ export default function Layout() {
     Montserrat_700Bold,
   });
 
+  const queryClient = new QueryClient();
+
   if (!fontsLoaded) return null;
 
   return (
-    <AuthProvider>
-      <SafeAreaProvider>
-        <StatusBar style="light" />
-        <MainLayout />
-      </SafeAreaProvider>
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <SafeAreaProvider>
+          <StatusBar style="light" />
+          <MainLayout />
+        </SafeAreaProvider>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }
