@@ -4,6 +4,7 @@ import { theme } from "../styles/theme";
 import { AddIcon, FilterIcon } from "./Icons";
 import { Link } from "expo-router";
 import useReminders from "../hooks/useReminders";
+import ReminderCard from "./ReminderCard";
 
 function RecordatoriosPage() {
   const { isPending, isError, data, error } = useReminders();
@@ -32,38 +33,19 @@ function RecordatoriosPage() {
           <FilterIcon color={"#000"} size={50} />
         </Pressable>
       </View>
-      <View style={{ width: "80%", marginTop: 20 }}>
+      <View style={{ width: "100%", marginTop: 10, alignItems: "center" }}>
         {data.length > 0 ? (
           <ScrollView
-            contentContainerStyle={{ alignItems: "flex-start" }}
-            style={{ flexGrow: 0, maxHeight: 480 }}
+            contentContainerStyle={{ alignItems: "center", paddingTop: 10 }}
+            style={{ flexGrow: 0, height: "96%" }}
           >
             {data.map((reminder) => (
-              <View style={styles.card} key={reminder.id}>
-                <Text style={styles.cardTitle}>{reminder.title}</Text>
-                <Text style={styles.cardDescription}>
-                  {reminder.description}
-                </Text>
-                <Text style={styles.cardDate}>
-                  {new Date(reminder.dueDate).toLocaleTimeString([], {
-                    year: "numeric",
-                    month: "numeric",
-                    day: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </Text>
-              </View>
+              <ReminderCard key={reminder.id} reminder={reminder} />
             ))}
           </ScrollView>
         ) : (
           <Text>No hay recordatorios</Text>
         )}
-        <Pressable style={styles.button}>
-          <Text style={{ fontSize: 16, textAlign: "center" }}>
-            Recordatorios recientes
-          </Text>
-        </Pressable>
       </View>
       <Link href={"/(reminders)/agregar-reminder"} asChild>
         <Pressable style={styles.addButton}>
@@ -92,29 +74,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 20,
     bottom: 45,
-  },
-  card: {
-    width: "100%",
-    borderWidth: 1,
-    borderTopColor: "#000",
-    borderBottomColor: "transparent",
-    borderLeftColor: "transparent",
-    borderRightColor: "transparent",
-    paddingVertical: 10,
-  },
-  cardTitle: {
-    fontSize: 20,
-    fontFamily: "Montserrat_700Bold",
-    color: "#000",
-  },
-  cardDescription: {
-    fontSize: 16,
-    fontFamily: "Montserrat_400Regular",
-  },
-  cardDate: {
-    fontSize: 16,
-    fontFamily: "Montserrat_400Regular",
-    color: "#555",
   },
   button: {
     width: "50%",
