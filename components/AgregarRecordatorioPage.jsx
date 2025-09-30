@@ -20,8 +20,8 @@ function AgregarRecordatorioPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const mutation = useMutation({
-    mutationKey: ["createPet", userToken],
+  const { mutate: createReminder } = useMutation({
+    mutationKey: ["createReminder", userToken],
     mutationFn: (newReminder) =>
       reminderService.createReminder(newReminder, userToken),
     onSuccess: (newReminder) => {
@@ -106,7 +106,7 @@ function AgregarRecordatorioPage() {
       <Pressable
         style={styles.button}
         onPress={() => {
-          mutation.mutate({ title, description, dueDate: date });
+          createReminder({ title, description, dueDate: date });
         }}
       >
         <Text style={{ fontSize: 18 }}>Agregar recordatorio</Text>
