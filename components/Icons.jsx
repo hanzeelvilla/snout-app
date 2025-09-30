@@ -53,9 +53,9 @@ export const MenuIcon = (props) => (
 
 export const AddIcon = (props) => (
   <MaterialCommunityIcons
-    name="plus-circle-outline"
+    name="plus-circle"
     size={24}
-    color="white"
+    color="black"
     {...props}
   />
 );
@@ -92,7 +92,7 @@ export const HomeIcon = (props) => (
 );
 
 export const ErrorIcon = (props) => (
-  <MaterialIcons name="error" size={24} color="red" />
+  <MaterialIcons name="error" size={24} color="red" {...props} />
 );
 
 export const TriangleIcon = (props) => (
