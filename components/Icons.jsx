@@ -98,3 +98,7 @@ export const ErrorIcon = (props) => (
 export const TriangleIcon = (props) => (
   <MaterialCommunityIcons name="triangle" size={32} color="black" {...props} />
 );
+
+export const LoadingIcon = (props) => (
+  <MaterialCommunityIcons name="loading" size={24} color="black" {...props} />
+);
