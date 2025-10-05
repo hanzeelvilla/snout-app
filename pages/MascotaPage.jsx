@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import { theme } from "../styles/theme";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { EditIcon, AddIcon, TriangleIcon } from "./Icons";
+import { EditIcon, AddIcon, TriangleIcon } from "../components/Icons";
 import { Link } from "expo-router";
 import useMascotas from "../hooks/useMascotas";
 import { useState } from "react";

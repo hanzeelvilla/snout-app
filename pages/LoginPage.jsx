@@ -5,8 +5,8 @@ import authService from "../services/auth";
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useRouter } from "expo-router";
-import Input from "./Input";
-import ErrorModal from "./ErrorModal";
+import Input from "../components/Input";
+import ErrorModal from "../components/ErrorModal";
 
 function LoginPage() {
   const [username, setUsername] = useState("");
@@ -54,12 +54,14 @@ function LoginPage() {
         <Input
           value={username}
           label="Nombre de usuario"
+          labelColor="#fff"
           onChange={(text) => setUsername(text)}
           validatorFn={validateInput}
         />
         <Input
           value={password}
           label="Contraseña"
+          labelColor="#fff"
           onChange={(text) => setPassword(text)}
           validatorFn={validateInput}
           secureText={true}

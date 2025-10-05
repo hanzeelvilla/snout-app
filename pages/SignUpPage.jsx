@@ -15,8 +15,8 @@ import { useAuth } from "../contexts/AuthContext";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import authService from "../services/auth";
-import Input from "./Input";
-import ErrorModal from "./ErrorModal";
+import Input from "../components/Input";
+import ErrorModal from "../components/ErrorModal";
 
 function SignUpPage() {
   const [formInfo, setFormInfo] = useState({});

@@ -1,4 +1,4 @@
-import ModifyReminderPage from "../../components/ModifyReminderPage";
+import ModifyReminderPage from "../../pages/ModifyReminderPage";
 
 export default function ModifyReminder() {
   return <ModifyReminderPage />;

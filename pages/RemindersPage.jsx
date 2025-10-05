@@ -1,16 +1,17 @@
 import { View, Text, Pressable, StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { theme } from "../styles/theme";
-import { AddIcon, FilterIcon } from "./Icons";
+import { AddIcon, FilterIcon } from "../components/Icons";
 import { Link } from "expo-router";
 import useReminders from "../hooks/useReminders";
-import ReminderCard from "./ReminderCard";
+import ReminderCard from "../components/ReminderCard";
+import Loader from "../components/Loader";
 
 function RecordatoriosPage() {
   const { isPending, isError, data, error } = useReminders();
 
   if (isPending) {
-    return <Text>Loading...</Text>;
+    return <Loader />;
   }
 
   if (isError) {
