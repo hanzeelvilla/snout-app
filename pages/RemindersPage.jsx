@@ -1,4 +1,12 @@
-import { View, Text, Pressable, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  ScrollView,
+  Alert,
+  RefreshControl,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { theme } from "../styles/theme";
 import { AddIcon, FilterIcon } from "../components/Icons";
@@ -6,16 +14,49 @@ import { Link } from "expo-router";
 import useReminders from "../hooks/useReminders";
 import ReminderCard from "../components/ReminderCard";
 import Loader from "../components/Loader";
+import { useEffect, useState } from "react";
 
 function RecordatoriosPage() {
-  const { isPending, isError, data, error } = useReminders();
+  const { isPending, isError, data, error, refetch, isFetching } =
+    useReminders();
+  const [alertShown, setAlertShown] = useState(false);
+
+  useEffect(() => {
+    if (isError && !alertShown) {
+      // mostrar alerta con opción de reintentar; no navegar automáticamente
+      Alert.alert(
+        "Error",
+        error?.message ?? "Hubo un error al conectarse con el servidor.",
+        [
+          { text: "Reintentar", onPress: () => refetch() },
+          { text: "Cerrar", style: "cancel" },
+        ],
+      );
+      setAlertShown(true);
+    }
+  }, [isError, error, refetch, alertShown]);
 
   if (isPending) {
     return <Loader />;
   }
 
-  if (isError) {
-    return <Text>Ocurrió un error: {error?.message}</Text>;
+  if (isError && !data) {
+    return (
+      <SafeAreaView style={styles.screen}>
+        <Text style={{ marginTop: 40, fontSize: 18, textAlign: "center" }}>
+          No se pudieron cargar los recordatorios.
+        </Text>
+        <Pressable
+          style={styles.button}
+          onPress={() => {
+            setAlertShown(false);
+            refetch();
+          }}
+        >
+          <Text>Reintentar</Text>
+        </Pressable>
+      </SafeAreaView>
+    );
   }
 
   return (
@@ -25,8 +66,8 @@ function RecordatoriosPage() {
           flexDirection: "row",
           alignItems: "center",
           marginTop: 20,
-          justifyContent: "space-between",
-          width: "80%",
+          justifyContent: "space-around",
+          width: "90%",
         }}
       >
         <Text style={styles.title}>RECORDATORIOS</Text>
@@ -34,18 +75,29 @@ function RecordatoriosPage() {
           <FilterIcon color={"#000"} size={50} />
         </Pressable>
       </View>
-      <View style={{ width: "100%", marginTop: 10, alignItems: "center" }}>
-        {data.length > 0 ? (
+      <View
+        style={{ width: "100%", marginTop: 10, alignItems: "center", flex: 1 }}
+      >
+        {Array.isArray(data) && data.length > 0 ? (
           <ScrollView
-            contentContainerStyle={{ alignItems: "center", paddingTop: 10 }}
-            style={{ flexGrow: 0, height: "96%" }}
+            contentContainerStyle={{
+              alignItems: "center",
+              paddingTop: 10,
+              paddingBottom: 170,
+            }}
+            refreshControl={
+              <RefreshControl
+                refreshing={isFetching}
+                onRefresh={() => refetch()}
+              />
+            }
           >
             {data.map((reminder) => (
               <ReminderCard key={reminder.id} reminder={reminder} />
             ))}
           </ScrollView>
         ) : (
-          <Text>No hay recordatorios</Text>
+          <Text style={{ marginTop: 20 }}>No hay recordatorios</Text>
         )}
       </View>
       <Link href={"/(reminders)/agregar-reminder"} asChild>
@@ -77,14 +129,14 @@ const styles = StyleSheet.create({
     bottom: 45,
   },
   button: {
-    width: "50%",
+    width: "40%",
     height: 50,
     backgroundColor: theme.buttonColor,
-    alignContent: "center",
+    textAlign: "center",
+    alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,
     marginTop: 40,
-    alignSelf: "center",
   },
 });
 

@@ -1,6 +1,7 @@
 import { Text, StyleSheet, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "../contexts/AuthContext";
+import { theme } from "../styles/theme";
 
 function HomePage() {
   const { userInfo } = useAuth();
@@ -11,7 +12,7 @@ function HomePage() {
       <Image
         style={styles.image}
         source={{
-          uri: "https://images.genius.com/74495d63df3c91ea6d8fc43c43b71395.598x598x1.png",
+          uri: "https://avatarfiles.alphacoders.com/297/297799.jpg",
         }}
       />
       <Text style={styles.usuario}>{userInfo.username.toUpperCase()}</Text>
@@ -22,7 +23,7 @@ function HomePage() {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: "#FBF2C0",
+    backgroundColor: theme.backgroundColor,
     justifyContent: "center",
     alignItems: "center",
   },

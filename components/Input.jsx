@@ -68,6 +68,8 @@ const styles = StyleSheet.create({
     height: 36,
     fontFamily: "Montserrat_400Regular",
     fontSize: 16,
+    borderWidth: 1,
+    borderColor: "#000",
   },
   errorContainer: {
     flexDirection: "row",

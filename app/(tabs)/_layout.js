@@ -41,7 +41,7 @@ export default function TabsLayout() {
         }}
       />*/}
       <Tabs.Screen
-        name="recordatorios"
+        name="reminders"
         options={{
           title: "Recordatorios",
           tabBarIcon: ({ color }) => <BellIcon color={color} />,

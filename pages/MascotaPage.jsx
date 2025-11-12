@@ -1,20 +1,23 @@
-import { View, Text, StyleSheet, Image, Pressable } from "react-native";
+import { View, Text, StyleSheet, Image, Pressable, Alert } from "react-native";
 import { theme } from "../styles/theme";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { EditIcon, AddIcon, TriangleIcon } from "../components/Icons";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import useMascotas from "../hooks/useMascotas";
 import { useState } from "react";
 import { calcularEdad } from "../utils/dates";
+import Loader from "../components/Loader";
 
 function MascotaPage() {
-  // const { isPending, isError, data, error } = useMascotas();
-  const mascotas = [
+  //const { isPending, isError, data, error } = useMascotas();
+  const router = useRouter();
+  const data = [
     {
       nombre: "Diego",
       especie: "Beagle",
       fechaDeNacimiento: "23/09/2018",
-      avatar: "https://cdn-icons-png.flaticon.com/512/194/194279.png",
+      avatar:
+        "https://media.tryfi.com/pet/avatar/6d83d6f402df805659f43981a81726c58c55a3df16e3d5a378648034304097ad.jpg",
     },
     {
       nombre: "Candy",
@@ -24,10 +27,20 @@ function MascotaPage() {
         "https://icons.iconarchive.com/icons/iconsmind/outline/512/Cat-icon.png",
     },
   ];
+
   const [index, setIndex] = useState(0);
 
+  /*if (isPending) {
+    return <Loader />;
+  }
+
+  if (isError) {
+    Alert.alert("Error", error.message);
+    router.back();
+  }*/
+
   const handleNext = () => {
-    if (index === mascotas.length - 1) {
+    if (index === data.length - 1) {
       setIndex(0);
     } else {
       setIndex((prev) => prev + 1);
@@ -36,7 +49,7 @@ function MascotaPage() {
 
   const handlePrevious = () => {
     if (index === 0) {
-      setIndex(mascotas.length - 1);
+      setIndex(data.length - 1);
     } else {
       setIndex((prev) => prev - 1);
     }
@@ -54,33 +67,35 @@ function MascotaPage() {
           <Image
             style={styles.avatar}
             source={{
-              uri: mascotas[index].avatar,
+              uri: data[index].avatar,
             }}
           />
           <Pressable style={styles.editButton}>
             <EditIcon size={40} color="#000" />
           </Pressable>
         </View>
-        <Text style={styles.petName}>{mascotas[index].nombre}</Text>
+        <Text style={styles.petName}>{data[index].nombre}</Text>
         <View style={styles.info}>
           <Text style={styles.subtitle}>INFORMACIÓN</Text>
-          <Text style={styles.text}>Especie: {mascotas[index].especie}</Text>
+          <Text style={styles.text}>Especie: {data[index].especie}</Text>
           <Text style={styles.text}>
-            Edad: {calcularEdad(mascotas[index].fechaDeNacimiento)}
+            Edad: {calcularEdad(data[index].fechaDeNacimiento)}
           </Text>
         </View>
-        <Pressable style={styles.button}>
-          <Text
-            style={{
-              color: "#000",
-              textAlign: "center",
-              fontSize: 20,
-              fontFamily: "Montserrat_400Regular",
-            }}
-          >
-            Historial
-          </Text>
-        </Pressable>
+        <Link href={"/(mascotas)/track-mascota"} asChild>
+          <Pressable style={styles.button}>
+            <Text
+              style={{
+                color: "#000",
+                textAlign: "center",
+                fontSize: 20,
+                fontFamily: "Montserrat_400Regular",
+              }}
+            >
+              Rastrear
+            </Text>
+          </Pressable>
+        </Link>
       </View>
       <Pressable style={styles.nextButton} onPress={handleNext}>
         <TriangleIcon style={{ transform: "rotate(90deg)" }} />
@@ -106,6 +121,7 @@ const styles = StyleSheet.create({
   avatar: {
     width: 200,
     height: 200,
+    borderRadius: 100,
   },
   subtitle: {
     fontSize: 20,
@@ -139,8 +155,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     alignItems: "center",
     justifyContent: "center",
-    top: 0,
-    right: 0,
+    top: -10,
+    right: -30,
   },
   button: {
     width: "60%",

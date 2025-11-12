@@ -91,7 +91,7 @@ function LoginPage() {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: theme.navigationBarColor,
+    backgroundColor: theme.authColor,
     justifyContent: "flex-start",
     alignItems: "center",
   },

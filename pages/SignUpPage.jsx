@@ -106,6 +106,7 @@ function SignUpPage() {
               <Input
                 value={formInfo.name}
                 label="Nombre"
+                labelColor="#fff"
                 onChange={(text) => setFormInfo({ ...formInfo, name: text })}
                 validatorFn={validateName}
               />
@@ -113,6 +114,7 @@ function SignUpPage() {
               <Input
                 value={formInfo.lastName}
                 label="Apellidos"
+                labelColor="#fff"
                 onChange={(text) =>
                   setFormInfo({ ...formInfo, lastName: text })
                 }
@@ -122,6 +124,7 @@ function SignUpPage() {
               <Input
                 value={formInfo.username}
                 label="Nombre de usuario"
+                labelColor="#fff"
                 onChange={(text) =>
                   setFormInfo({ ...formInfo, username: text })
                 }
@@ -131,6 +134,7 @@ function SignUpPage() {
               <Input
                 value={formInfo.email}
                 label="Correo"
+                labelColor="#fff"
                 keyboardType="email-address"
                 onChange={(text) => setFormInfo({ ...formInfo, email: text })}
                 validatorFn={validateEmail}
@@ -139,6 +143,7 @@ function SignUpPage() {
               <Input
                 value={formInfo.password}
                 label="Contraseña"
+                labelColor="#fff"
                 secureText={true}
                 onChange={(text) =>
                   setFormInfo({ ...formInfo, password: text })
@@ -149,6 +154,7 @@ function SignUpPage() {
               <Input
                 value={formInfo.confirmPassword}
                 label="Confirmar contraseña"
+                labelColor="#fff"
                 secureText={true}
                 onChange={(text) =>
                   setFormInfo({ ...formInfo, confirmPassword: text })
@@ -170,13 +176,13 @@ function SignUpPage() {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: theme.navigationBarColor,
+    backgroundColor: theme.authColor,
   },
   inner: {
     flexGrow: 1,
     alignItems: "center",
     paddingBottom: 40,
-    backgroundColor: theme.navigationBarColor,
+    backgroundColor: theme.authColor,
     justifyContent: "center",
   },
   title: {

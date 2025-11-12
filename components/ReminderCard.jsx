@@ -37,7 +37,7 @@ export default function ReminderCard({ reminder }) {
 
 const styles = StyleSheet.create({
   container: {
-    width: "90%",
+    width: "98%",
     alignItems: "center",
     marginBottom: 10,
   },

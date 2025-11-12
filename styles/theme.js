@@ -1,5 +1,6 @@
 export const theme = {
-  backgroundColor: "#FBF2C0",
-  buttonColor: "#F96F5D",
-  navigationBarColor: "#43281C",
+  backgroundColor: "#EFEDF7FF",
+  buttonColor: "#388697",
+  navigationBarColor: "#08415C",
+  authColor: "#43281C",
 };

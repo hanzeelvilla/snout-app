@@ -18,9 +18,12 @@ function ModifyReminderPage() {
   const reminders = queryClient.getQueryData(["reminders", userToken]) || [];
   const reminder = reminders.find((reminder) => reminder.id === id);
 
-  const [title, setTitle] = useState(reminder.title);
-  const [description, setDescription] = useState(reminder.description);
-  const [date, setDate] = useState(new Date(reminder.dueDate));
+  const [title, setTitle] = useState(reminder?.title ?? "");
+  const [description, setDescription] = useState(reminder?.description ?? "");
+  const [date, setDate] = useState(() => {
+    const dueDate = reminder?.dueDate;
+    return dueDate ? new Date(dueDate) : new Date();
+  });
   const [showDate, setShowDate] = useState(false);
   const [showTime, setShowTime] = useState(false);
 
@@ -56,11 +59,21 @@ function ModifyReminderPage() {
         ["reminders", userToken],
         reminders.filter((reminder) => reminder.id !== id),
       );
-      console.log(reminders);
       router.back();
     },
     onError: (error) => console.log(error),
   });
+
+  if (!reminder) {
+    return (
+      <SafeAreaView style={styles.screen}>
+        <Text>Recordatorio no encontrado</Text>
+        <Pressable style={styles.button} onPress={() => router.back()}>
+          <Text>Volver</Text>
+        </Pressable>
+      </SafeAreaView>
+    );
+  }
 
   const onChangeDate = (event, selectedDate) => {
     setShowDate(Platform.OS === "ios");
@@ -195,7 +208,7 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   deleteButton: {
-    backgroundColor: "red",
+    backgroundColor: "#DC143C",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,

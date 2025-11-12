@@ -74,12 +74,7 @@ export const FilterIcon = (props) => (
 );
 
 export const BellIcon = (props) => (
-  <MaterialCommunityIcons
-    name="bell-outline"
-    size={24}
-    color="white"
-    {...props}
-  />
+  <MaterialCommunityIcons name="bell" size={24} color="white" {...props} />
 );
 
 export const HomeIcon = (props) => (
