@@ -14,13 +14,20 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.snout"
+      "bundleIdentifier": "com.anonymous.snout",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Necesitamos tu ubicación para mostrarla en el mapa.",
+        "NSLocationAlwaysUsageDescription": "Tu ubicación se usa incluso cuando la app está en segundo plano para notificaciones precisas."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#43281C"
       },
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"],
       "edgeToEdgeEnabled": true,
       "package": "com.anonymous.snout"
     },
