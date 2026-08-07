@@ -1,22 +1,17 @@
 import { Tabs } from "expo-router";
-import {
-  BellIcon,
-  DogIcon,
-  HomeIcon,
-  HospitalIcon,
-  MarkerIcon,
-  MenuIcon,
-} from "../../components/Icons";
-import { theme } from "../../styles/theme";
+import { BellIcon, DogIcon, HomeIcon } from "../../components/Icons";
+import { useTheme } from "../../contexts/ThemeContext";
 
 export default function TabsLayout() {
+  const { theme } = useTheme();
+
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
         tabBarStyle: { backgroundColor: theme.navigationBarColor },
-        tabBarActiveTintColor: theme.buttonColor,
-        tabBarInactiveTintColor: "#fff",
+        tabBarActiveTintColor: theme.selectedColor,
+        tabBarInactiveTintColor: theme.backgroundColor,
       }}
     >
       <Tabs.Screen

@@ -2,16 +2,11 @@
   "expo": {
     "name": "snout",
     "slug": "snout",
+    "scheme": "snout",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#43281C"
-    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.snout",
@@ -27,9 +22,8 @@
       },
       "permissions": [
         "ACCESS_FINE_LOCATION",
-        "ACCESS_COARSE_LOCATION"],
-      "edgeToEdgeEnabled": true,
-      "package": "com.anonymous.snout"
+        "ACCESS_COARSE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -49,7 +43,9 @@
       ],
       "expo-font",
       "expo-router",
-      "expo-secure-store"
+      "expo-secure-store",
+      "@react-native-community/datetimepicker",
+      "react-native-maps"
     ]
   }
 }

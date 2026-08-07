@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl = "https://8qq7qc3p-3000.usw3.devtunnels.ms/api/auth";
+const baseUrl = "https://jcss0s7s-3000.usw3.devtunnels.ms/api/auth";
 
 const login = async (credentials) => {
   const response = await axios.post(`${baseUrl}/login`, credentials);

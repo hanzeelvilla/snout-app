@@ -1,4 +1,4 @@
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { useFonts } from "expo-font";
 import {
   Montserrat_400Regular,
@@ -6,22 +6,33 @@ import {
   Montserrat_700Bold,
 } from "@expo-google-fonts/montserrat";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { theme } from "../styles/theme";
-import { MenuIcon } from "../components/Icons";
 import { Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { AuthProvider, useAuth } from "../contexts/AuthContext";
+import { ThemeProvider, useTheme } from "../contexts/ThemeContext";
+import { AlertProvider } from "../contexts/AlertContext";
+import MenuHeaderButton from "../components/MenuHeaderButton";
+import HamburgerMenu from "../components/HamburgerMenu";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 function MainLayout() {
   const { userToken, loading } = useAuth();
+  const { theme } = useTheme();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !userToken) {
+      router.replace("/login");
+    }
+  }, [userToken, loading, router]);
 
   if (loading) {
     return <Text>Loading...</Text>;
   }
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: theme.backgroundColor }}>
       <Stack>
         {userToken ? (
           [
@@ -36,18 +47,7 @@ function MainLayout() {
                   backgroundColor: theme.navigationBarColor,
                 },
                 headerTintColor: "#fff",
-                headerRight: () => (
-                  <View
-                    style={{
-                      paddingRight: 10,
-                      width: 50,
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <MenuIcon />
-                  </View>
-                ),
+                headerRight: () => <MenuHeaderButton />,
               }}
             />,
             <Stack.Screen
@@ -65,6 +65,7 @@ function MainLayout() {
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         )}
       </Stack>
+      <HamburgerMenu />
     </View>
   );
 }
@@ -83,10 +84,14 @@ export default function Layout() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <SafeAreaProvider>
-          <StatusBar style="light" />
-          <MainLayout />
-        </SafeAreaProvider>
+        <ThemeProvider>
+          <AlertProvider>
+            <SafeAreaProvider>
+              <StatusBar style="light" />
+              <MainLayout />
+            </SafeAreaProvider>
+          </AlertProvider>
+        </ThemeProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

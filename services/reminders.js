@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "https://8qq7qc3p-3000.usw3.devtunnels.ms/api/reminders";
+const baseUrl = "https://jcss0s7s-3000.usw3.devtunnels.ms/api/reminders";
 
 const getReminders = async (token) => {
   const response = await axios.get(baseUrl, {

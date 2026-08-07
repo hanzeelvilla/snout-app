@@ -1,9 +1,10 @@
 import { Stack } from "expo-router";
-import { MenuIcon } from "../../components/Icons";
-import { theme } from "../../styles/theme";
-import { View } from "react-native";
+import MenuHeaderButton from "../../components/MenuHeaderButton";
+import { useTheme } from "../../contexts/ThemeContext";
 
 export default function Layout() {
+  const { theme } = useTheme();
+
   return (
     <Stack>
       <Stack.Screen
@@ -16,18 +17,7 @@ export default function Layout() {
             backgroundColor: theme.navigationBarColor,
           },
           headerTintColor: "#fff",
-          headerRight: () => (
-            <View
-              style={{
-                paddingRight: 10,
-                width: 50,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <MenuIcon />
-            </View>
-          ),
+          headerRight: () => <MenuHeaderButton />,
         }}
       />
       <Stack.Screen
@@ -40,18 +30,7 @@ export default function Layout() {
             backgroundColor: theme.navigationBarColor,
           },
           headerTintColor: "#fff",
-          headerRight: () => (
-            <View
-              style={{
-                paddingRight: 10,
-                width: 50,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <MenuIcon />
-            </View>
-          ),
+          headerRight: () => <MenuHeaderButton />,
         }}
       />
     </Stack>
