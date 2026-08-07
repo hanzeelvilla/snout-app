@@ -1,0 +1,8 @@
+node_modules
+.expo
+.vscode
+dist
+build
+web-build
+package-lock.json
+pnpm-lock.yaml
