@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@theme {
+  /* ==========================================
+     PALETA MODO CLARO (LIGHT MODE)
+     ========================================== */
+  --color-light-bg: #FAF6EE;
+  --color-light-surface: #FFFFFF;
+  --color-light-border: #EAE1D0;
+  --color-light-primary: #C8803C;
+  --color-light-secondary: #8C532B;
+  --color-light-title: #3D2314;
+  --color-light-body: #7A5B44;
+  --color-light-badge: #F4E8D5;
+
+  /* ==========================================
+     PALETA MODO OSCURO (DARK MODE)
+     ========================================== */
+  --color-dark-bg: #140E0B;
+  --color-dark-surface: #261B15;
+  --color-dark-border: #3A271F;
+  --color-dark-primary: #E89B50;
+  --color-dark-secondary: #D87D38;
+  --color-dark-title: #F5EBE1;
+  --color-dark-body: #D2B8A3;
+  --color-dark-badge: #3A2318;
+
+  /* ==========================================
+     ALIASES SEMÁNTICOS (MODO CLARO POR DEFECTO)
+     ========================================== */
+  --color-app-bg: #FAF6EE;
+  --color-app-surface: #FFFFFF;
+  --color-app-border: #EAE1D0;
+  --color-primary: #C8803C;
+  --color-secondary: #8C532B;
+  --color-text-title: #3D2314;
+  --color-text-body: #7A5B44;
+  --color-badge: #F4E8D5;
+
+  /* ==========================================
+     FUENTES DE MONTSERRAT
+     ========================================== */
+  --font-sans: Montserrat_400Regular;
+  --font-montserrat-regular: Montserrat_400Regular;
+  --font-montserrat-medium: Montserrat_500Medium;
+  --font-montserrat-semibold: Montserrat_600SemiBold;
+  --font-montserrat-bold: Montserrat_700Bold;
+}
