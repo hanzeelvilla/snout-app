@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { CountryCode, parsePhoneNumberFromString } from 'libphonenumber-js';
 
 export const loginSchema = z.object({
   email: z.email({ message: 'El correo debe estar en un formato válido' }),
@@ -24,11 +25,13 @@ export const signUpSchema = z
       .min(1, { message: 'La fecha de nacimiento es obligatoria.' })
       .refine(
         (val) => /^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/.test(val.trim()),
-        { message: 'Ingresa la fecha en formato DD/MM/AAAA.' }
+        { message: 'Ingresa la fecha en formato DD/MM/AAAA.' },
       )
       .refine(
         (val) => {
-          const match = val.trim().match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+          const match = val
+            .trim()
+            .match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
           if (!match) return false;
           const day = parseInt(match[1], 10);
           const month = parseInt(match[2], 10) - 1;
@@ -40,11 +43,13 @@ export const signUpSchema = z
             birth.getDate() === day
           );
         },
-        { message: 'Ingresa una fecha válida.' }
+        { message: 'Ingresa una fecha válida.' },
       )
       .refine(
         (val) => {
-          const match = val.trim().match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+          const match = val
+            .trim()
+            .match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
           if (!match) return false;
           const day = parseInt(match[1], 10);
           const month = parseInt(match[2], 10) - 1;
@@ -54,11 +59,13 @@ export const signUpSchema = z
           today.setHours(23, 59, 59, 999);
           return birth <= today;
         },
-        { message: 'La fecha de nacimiento no puede ser futura.' }
+        { message: 'La fecha de nacimiento no puede ser futura.' },
       )
       .refine(
         (val) => {
-          const match = val.trim().match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+          const match = val
+            .trim()
+            .match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
           if (!match) return false;
           const day = parseInt(match[1], 10);
           const month = parseInt(match[2], 10) - 1;
@@ -75,14 +82,10 @@ export const signUpSchema = z
           }
           return age >= 18;
         },
-        { message: 'Debes tener al menos 18 años para registrarte.' }
+        { message: 'Debes tener al menos 18 años para registrarte.' },
       ),
-    phone: z
-      .string()
-      .min(1, { message: 'El celular es obligatorio.' })
-      .refine((val) => val.replace(/\D/g, '').length >= 10, {
-        message: 'El teléfono debe tener al menos 10 dígitos.',
-      }),
+    countryCode: z.string().optional(),
+    phone: z.string().trim().min(1, { message: 'El celular es obligatorio.' }),
     email: z.email({ message: 'El correo debe estar en un formato válido.' }),
     password: z
       .string()
@@ -107,6 +110,32 @@ export const signUpSchema = z
       message: 'Debes aceptar los Términos y Condiciones para continuar.',
     }),
   })
+  .refine(
+  (data) => {
+    if (!data.phone) return true;
+    
+    const cleanPhone = data.phone.trim();
+    const defaultCountry = (data.countryCode || 'MX') as CountryCode;
+
+    const phoneNumber = cleanPhone.startsWith('+') 
+      ? parsePhoneNumberFromString(cleanPhone)
+      : parsePhoneNumberFromString(cleanPhone, defaultCountry);
+
+    if (!phoneNumber) return false;
+
+    if (!phoneNumber.isValid()) return false;
+
+    if (cleanPhone.startsWith('+') && data.countryCode && phoneNumber.country !== data.countryCode) {
+      return false; 
+    }
+
+    return true;
+  },
+  {
+    message: 'El celular no es válido para el país seleccionado.',
+    path: ['phone'],
+  },
+)
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Las contraseñas no coinciden.',
     path: ['confirmPassword'],

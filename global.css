@@ -1,41 +1,41 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   /* ==========================================
      PALETA MODO CLARO (LIGHT MODE)
      ========================================== */
-  --color-light-bg: #FAF6EE;
-  --color-light-surface: #FFFFFF;
-  --color-light-border: #EAE1D0;
-  --color-light-primary: #C8803C;
-  --color-light-secondary: #8C532B;
-  --color-light-title: #3D2314;
-  --color-light-body: #7A5B44;
-  --color-light-badge: #F4E8D5;
+  --color-light-bg: #faf6ee;
+  --color-light-surface: #ffffff;
+  --color-light-border: #eae1d0;
+  --color-light-primary: #c8803c;
+  --color-light-secondary: #8c532b;
+  --color-light-title: #3d2314;
+  --color-light-body: #7a5b44;
+  --color-light-badge: #f4e8d5;
 
   /* ==========================================
      PALETA MODO OSCURO (DARK MODE)
      ========================================== */
-  --color-dark-bg: #140E0B;
-  --color-dark-surface: #261B15;
-  --color-dark-border: #3A271F;
-  --color-dark-primary: #E89B50;
-  --color-dark-secondary: #D87D38;
-  --color-dark-title: #F5EBE1;
-  --color-dark-body: #D2B8A3;
-  --color-dark-badge: #3A2318;
+  --color-dark-bg: #140e0b;
+  --color-dark-surface: #261b15;
+  --color-dark-border: #3a271f;
+  --color-dark-primary: #e89b50;
+  --color-dark-secondary: #d87d38;
+  --color-dark-title: #f5ebe1;
+  --color-dark-body: #d2b8a3;
+  --color-dark-badge: #3a2318;
 
   /* ==========================================
      ALIASES SEMÁNTICOS (MODO CLARO POR DEFECTO)
      ========================================== */
-  --color-app-bg: #FAF6EE;
-  --color-app-surface: #FFFFFF;
-  --color-app-border: #EAE1D0;
-  --color-primary: #C8803C;
-  --color-secondary: #8C532B;
-  --color-text-title: #3D2314;
-  --color-text-body: #7A5B44;
-  --color-badge: #F4E8D5;
+  --color-app-bg: #faf6ee;
+  --color-app-surface: #ffffff;
+  --color-app-border: #eae1d0;
+  --color-primary: #c8803c;
+  --color-secondary: #8c532b;
+  --color-text-title: #3d2314;
+  --color-text-body: #7a5b44;
+  --color-badge: #f4e8d5;
 
   /* ==========================================
      FUENTES DE MONTSERRAT
