@@ -2,7 +2,6 @@ import { useState } from 'react';
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
-  Platform,
   Pressable,
   ScrollView,
   Text,
@@ -20,6 +19,10 @@ import {
   MoveLeft,
 } from 'lucide-react-native';
 import Input from '@/components/Input';
+import PhoneInput, {
+  CountryOption,
+  DEFAULT_COUNTRY,
+} from '@/components/PhoneInput';
 import { SignUpFormData, signUpSchema } from '@/schemas/authSchemas';
 
 const GENDER_OPTIONS = ['Masculino', 'Femenino', 'Otro', 'Prefiero no decirlo'];
@@ -30,6 +33,8 @@ export default function SignUpScreen() {
   // Estados UI
   const [isGenderOpen, setIsGenderOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedCountry, setSelectedCountry] =
+    useState<CountryOption>(DEFAULT_COUNTRY);
 
   const {
     control,
@@ -46,6 +51,7 @@ export default function SignUpScreen() {
       lastNameMaternal: '',
       gender: '',
       birthDate: '',
+      countryCode: 'MX',
       phone: '',
       email: '',
       password: '',
@@ -274,14 +280,19 @@ export default function SignUpScreen() {
                 control={control}
                 name="phone"
                 render={({ field: { onChange, onBlur, value } }) => (
-                  <Input
+                  <PhoneInput
                     label="Celular *"
-                    placeholder="Ej. 5512345678"
                     value={value}
                     onChange={onChange}
                     onBlur={onBlur}
-                    keyboardType="phone-pad"
                     error={errors.phone?.message}
+                    selectedCountry={selectedCountry}
+                    onCountryChange={(country) => {
+                      setSelectedCountry(country);
+                      setValue('countryCode', country.code, {
+                        shouldValidate: true,
+                      });
+                    }}
                   />
                 )}
               />
