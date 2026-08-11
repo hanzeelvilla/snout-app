@@ -1,35 +1,36 @@
 import { useState } from 'react';
 import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
+import { Controller, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import Input from '@/components/Input';
+import { LoginFormData, loginSchema } from '@/schemas/authSchemas';
 
 export default function LoginScreen() {
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = () => {
-    if (!email || !password) return;
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    mode: 'onBlur',
+    reValidateMode: 'onBlur',
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
 
+  const onSubmit = (_data: LoginFormData) => {
     setIsLoading(true);
 
     // Petición simulada de inicio de sesión
     setTimeout(() => {
       setIsLoading(false);
     }, 2000);
-  };
-
-  const validatePassword = () => {
-    if (!password) return 'Este campo es requerido';
-
-    return null;
-  };
-
-  const validateEmail = () => {
-    if (!email) return 'Este campo es requerido';
-
-    return null;
   };
 
   return (
@@ -46,24 +47,37 @@ export default function LoginScreen() {
         </Text>
 
         {/* Input de Correo */}
-        <Input
-          label="Correo Electronico"
-          placeholder="correo@domino.com"
-          value={email}
-          onChange={setEmail}
-          keyboardType="email-address"
-          validatorFn={validateEmail}
+        <Controller
+          control={control}
+          name="email"
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input
+              label="Correo Electronico"
+              placeholder="correo@domino.com"
+              value={value}
+              onChange={onChange}
+              onBlur={onBlur}
+              keyboardType="email-address"
+              error={errors.email?.message}
+            />
+          )}
         />
 
         {/* Input de Contraseña */}
-        <Input
-          label="Contraseña"
-          placeholder="••••••••"
-          value={password}
-          onChange={setPassword}
-          textStyleClasses="text-primary text-lg"
-          secureText={true}
-          validatorFn={validatePassword}
+        <Controller
+          control={control}
+          name="password"
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input
+              label="Contraseña"
+              placeholder="••••••••"
+              value={value}
+              onChange={onChange}
+              onBlur={onBlur}
+              isPassword={true}
+              error={errors.password?.message}
+            />
+          )}
         />
 
         {/* Enlace ¿Olvidaste tu contraseña? */}
@@ -81,7 +95,7 @@ export default function LoginScreen() {
           className={`h-12 rounded-xl justify-center items-center mb-6 ${
             isLoading ? 'bg-light-secondary' : 'bg-light-primary'
           }`}
-          onPress={handleLogin}
+          onPress={handleSubmit(onSubmit)}
           disabled={isLoading}
         >
           {isLoading ? (
